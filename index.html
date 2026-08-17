@@ -1,26 +1,752 @@
 <!doctype html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inspection Division — FBI · Штат Space</title>
-    <meta
-      name="description"
-      content="Отдел инспекций (Inspection Division) ФБР в штате Space: внутренний контроль, скрытое наблюдение, дисциплина и порядок. Форма обратной связи INS-302."
-    />
-    <link
-      rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%230A0F1A' stroke='%23C19A3D' stroke-width='4'/%3E%3Cpath d='M30 50 Q50 36 70 50 Q50 64 30 50 Z' fill='none' stroke='%23C19A3D' stroke-width='3'/%3E%3Ccircle cx='50' cy='50' r='7' fill='%23C19A3D'/%3E%3C/svg%3E"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=PT+Mono&family=PT+Sans:ital,wght@0,400;0,700;1,400&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  <script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a2c7d8317ec6d35e',t:'MTc4Njk2MDk2MA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inspection Division — FBI · Штат Space</title>
+<meta name="description" content="Отдел инспекций (Inspection Division) ФБР в штате Space: внутренний контроль, скрытое наблюдение, дисциплина и порядок. Форма обратной связи INS-302.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%230A0F1A' stroke='%23C19A3D' stroke-width='4'/%3E%3Cpath d='M30 50 Q50 36 70 50 Q50 64 30 50 Z' fill='none' stroke='%23C19A3D' stroke-width='3'/%3E%3Ccircle cx='50' cy='50' r='7' fill='%23C19A3D'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=PT+Mono&family=PT+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ==================== ДИЗАЙН-ТОКЕНЫ (тема: рассекреченное досье) ==================== */
+:root{
+  --night:#0a0f1a;   /* обложка дела */
+  --ink:#101b2e;     /* тёмные секции */
+  --ink2:#16233a;    /* карточки на тёмном */
+  --paper:#ece4d0;   /* манильская бумага */
+  --paper2:#f6f1e3;  /* бумага светлее */
+  --card:#f9f5e9;    /* карточки-формуляры */
+  --brass:#c19a3d;   /* латунь */
+  --brass2:#a9832e;  /* латунь на бумаге */
+  --stamp:#a8342a;   /* красный штампа */
+  --steel:#93a2b5;   /* текст на тёмном */
+  --steel2:#5d6b7d;  /* служебные подписи */
+  --type:#232f3e;    /* машинописный текст */
+  --disp:'Oswald','Arial Narrow',sans-serif;
+  --body:'PT Sans','Segoe UI',sans-serif;
+  --mono:'PT Mono','Courier New',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--night);color:var(--type);font-family:var(--body);-webkit-font-smoothing:antialiased}
+::selection{background:var(--brass);color:var(--night)}
+:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+
+/* ---------- утилиты ---------- */
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.section-pad{padding:80px 0}
+@media(min-width:1024px){.section-pad{padding:112px 0}}
+.mono{font-family:var(--mono);text-transform:uppercase}
+.disp{font-family:var(--disp);text-transform:uppercase}
+
+/* ---------- контурный дисплейный текст ---------- */
+.outline{color:transparent;-webkit-text-stroke:1.5px var(--brass)}
+@media(max-width:640px){.outline{-webkit-text-stroke-width:1px}}
+
+/* ---------- лист бумаги с дыроколом ---------- */
+.sheet{position:relative}
+.sheet::before{content:"";position:absolute;left:14px;top:0;bottom:0;width:8px;
+  background-image:radial-gradient(circle 3.5px at 4px 50%,rgba(10,15,26,.45) 0 62%,transparent 64%);
+  background-size:8px 64px;background-repeat:repeat-y;pointer-events:none}
+
+/* ---------- полоска скотча ---------- */
+.tape{position:absolute;width:130px;height:26px;top:-13px;background:rgba(193,154,61,.3);
+  border-left:1px dashed rgba(10,15,26,.28);border-right:1px dashed rgba(10,15,26,.28)}
+
+/* ---------- резиновый штамп ---------- */
+.stamp{font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--stamp);
+  border:2.5px solid currentColor;border-radius:5px;padding:.35em .6em;font-weight:700;
+  line-height:1.2;text-align:center;box-shadow:inset 0 0 0 1.5px rgba(168,52,42,.3);
+  display:inline-block;user-select:none}
+.stamp .big{font-size:.72rem;display:block}
+.stamp .small{font-size:.6rem;opacity:.8;display:block}
+.stamp-anim{animation:stamp .5s cubic-bezier(.2,1.5,.4,1) both}
+@keyframes stamp{0%{opacity:0;transform:scale(2.1) rotate(-2deg)}
+  55%{opacity:1;transform:scale(.94) rotate(-9deg)}100%{opacity:1;transform:scale(1) rotate(-8deg)}}
+
+/* ---------- полосы ретуши ---------- */
+.redact{display:inline-block;height:.95em;vertical-align:middle;background:var(--type);border-radius:2px}
+.redact-light{background:var(--steel)}
+
+/* ---------- точечная сетка ---------- */
+.grid-dots{background-image:radial-gradient(rgba(147,162,181,.14) 1px,transparent 1.5px);background-size:22px 22px}
+
+/* ---------- линованная бумага ---------- */
+.ruled{background-image:repeating-linear-gradient(to bottom,transparent 0 27px,rgba(35,47,62,.08) 27px 28px)}
+
+/* ---------- появление при скролле ---------- */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.is-in{opacity:1;transform:none}
+
+/* ==================== ШАПКА ==================== */
+header.site{position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(193,154,61,.2);
+  background:rgba(10,15,26,.85);backdrop-filter:blur(8px)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .seal{width:36px;height:36px;flex:none}
+.brand-name{line-height:1.15}
+.brand-name b{display:block;font-family:var(--disp);font-weight:600;font-size:15px;
+  letter-spacing:.18em;color:var(--paper2)}
+.brand-name span{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--steel)}
+nav.main{display:none;gap:24px}
+@media(min-width:1024px){nav.main{display:flex}}
+nav.main a{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--steel);transition:color .2s}
+nav.main a:hover{color:var(--brass)}
+.header-right{display:flex;align-items:center;gap:16px}
+.status{display:none;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.18em;color:var(--steel)}
+@media(min-width:640px){.status{display:flex}}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--brass);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.btn{display:inline-block;background:var(--brass);color:var(--night);padding:8px 16px;
+  font-family:var(--disp);font-weight:600;font-size:12px;letter-spacing:.18em;transition:background .2s}
+.btn:hover{background:var(--paper2)}
+.btn.big{padding:16px 32px;font-size:14px;letter-spacing:.2em}
+.btn.ghost{border:1px solid rgba(147,162,181,.4);background:none;color:var(--paper2)}
+.btn.ghost:hover{border-color:var(--brass);color:var(--brass);background:none}
+.btn.dark{background:var(--night);color:var(--paper2)}
+.btn.dark:hover{background:var(--ink2)}
+
+/* ==================== HERO ==================== */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid rgba(193,154,61,.2)}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at top right,rgba(193,154,61,.10),transparent 55%)}
+.hero-grid{position:relative;display:grid;gap:56px;padding:64px 0 80px}
+@media(min-width:1024px){.hero-grid{grid-template-columns:1.15fr .85fr;align-items:center;padding:96px 0 112px}}
+.dossier-tag{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-bottom:20px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--brass)}
+.dossier-tag .stamp{font-size:9px;transform:rotate(-6deg)}
+h1.title{font-family:var(--disp);font-weight:600;line-height:.95;letter-spacing:-.01em;color:var(--paper2)}
+h1.title span{display:block;font-size:clamp(44px,8vw,84px)}
+.hero-lede{margin-top:24px;max-width:560px;font-size:18px;line-height:1.6;color:var(--steel)}
+.hero-actions{margin-top:32px;display:flex;flex-wrap:wrap;gap:16px}
+.meta-grid{margin-top:48px;display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:rgba(193,154,61,.15);border:1px solid rgba(193,154,61,.2)}
+@media(min-width:1024px){.meta-grid{grid-template-columns:repeat(4,1fr)}}
+.meta-cell{background:rgba(10,15,26,.85);padding:16px}
+.meta-cell dt{font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--steel2)}
+.meta-cell dd{margin-top:6px;font-family:var(--disp);font-weight:500;font-size:14px;
+  letter-spacing:.06em;color:var(--paper2)}
+.hero-seal{display:none}
+@media(min-width:1024px){.hero-seal{display:block;position:relative;text-align:center}}
+.folder-tab{position:absolute;top:8px;left:32px;width:256px;height:32px;transform:rotate(2deg);
+  background:var(--paper2);box-shadow:0 2px 6px rgba(0,0,0,.4)}
+.folder-tab span{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.3em;color:var(--type)}
+.hero-seal .seal{width:320px;max-width:100%;margin:24px auto 0}
+.hero-stamp{margin-top:8px;animation:stamp .5s cubic-bezier(.2,1.5,.4,1) both;animation-delay:.9s}
+
+/* ==================== БЕГУЩАЯ ЛЕНТА ==================== */
+.ticker{overflow:hidden;background:var(--brass);border-top:1px solid rgba(10,15,26,.4);
+  border-bottom:1px solid rgba(10,15,26,.4)}
+.ticker-track{display:flex;width:max-content;padding:12px 0;animation:marquee 38s linear infinite}
+.ticker-track span{display:inline-flex;align-items:center;gap:28px;margin:0 28px;
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.3em;color:var(--night);white-space:nowrap}
+.ticker-track span::after{content:"✦";color:rgba(10,15,26,.5)}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ==================== СЕКЦИИ ==================== */
+.sec-head{max-width:760px}
+.eyebrow{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.28em;color:var(--brass2)}
+.eyebrow i{display:inline-block;width:10px;height:10px;background:var(--stamp)}
+.on-dark .eyebrow{color:var(--brass)}
+.on-dark .eyebrow i{background:var(--brass)}
+.sec-title{margin-top:16px;font-family:var(--disp);font-weight:600;font-size:clamp(28px,4vw,44px);
+  line-height:1.05;letter-spacing:-.01em;color:var(--type)}
+.on-dark .sec-title{color:var(--paper2)}
+.sec-lede{margin-top:16px;font-size:17px;line-height:1.6;color:rgba(35,47,62,.75)}
+.on-dark .sec-lede{color:var(--steel)}
+.prose{font-size:16px;line-height:1.7;color:rgba(35,47,62,.85)}
+.prose p + p{margin-top:16px}
+
+/* ---------- сводка (About) ---------- */
+.about-grid{display:grid;gap:40px;margin-top:48px}
+@media(min-width:1024px){.about-grid{grid-template-columns:1.2fr .8fr}}
+.facts-card{position:relative;background:var(--card);border:1px solid rgba(10,15,26,.15);
+  padding:24px;box-shadow:4px 4px 0 rgba(35,47,62,.08)}
+.facts-card .stamp{position:absolute;top:-14px;right:24px;transform:rotate(-6deg)}
+.facts-card h3{font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--steel2);
+  font-weight:400;margin-bottom:8px}
+.facts-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  padding:12px 0;border-bottom:1px solid rgba(10,15,26,.1)}
+.facts-row:last-child{border-bottom:none}
+.facts-row dt{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--steel2)}
+.facts-row dd{text-align:right;font-family:var(--disp);font-weight:500;font-size:14px;
+  letter-spacing:.04em;color:var(--type)}
+
+/* ---------- организации (Division) ---------- */
+.org-intro{margin-top:48px;max-width:760px;font-size:16px;line-height:1.7;color:rgba(35,47,62,.85)}
+.org-label{margin-top:40px;font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--brass2)}
+.org-grid{margin-top:24px;display:grid;gap:16px}
+@media(min-width:640px){.org-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.org-grid{grid-template-columns:repeat(4,1fr)}}
+.org-card{position:relative;background:var(--card);border:1px solid rgba(10,15,26,.15);
+  padding:20px;transition:transform .2s}
+.org-card:hover{transform:translateY(-4px)}
+.org-card .tag{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:9px;
+  letter-spacing:.2em;color:var(--stamp)}
+.org-card .code{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--brass2)}
+.org-card h3{margin-top:8px;font-family:var(--disp);font-weight:500;font-size:18px;
+  letter-spacing:.02em;color:var(--type)}
+.org-card p{margin-top:8px;font-size:14px;line-height:1.6;color:rgba(35,47,62,.7)}
+
+/* ---------- задачи (Duties) ---------- */
+.protocols{margin-top:48px;display:grid;gap:20px}
+@media(min-width:768px){.protocols{grid-template-columns:1fr 1fr}}
+.protocol{position:relative;background:var(--ink2);border:1px solid rgba(193,154,61,.2);
+  padding:24px 24px 20px}
+.protocol .num{position:absolute;top:-12px;left:24px;background:var(--night);
+  border:1px solid var(--brass);color:var(--brass);font-family:var(--mono);font-size:12px;
+  font-weight:700;letter-spacing:.2em;padding:2px 10px}
+.protocol h3{font-family:var(--disp);font-weight:500;font-size:20px;letter-spacing:.02em;color:var(--paper2)}
+.protocol ul{margin-top:16px;list-style:none}
+.protocol li{display:flex;gap:12px;font-size:14px;line-height:1.6;color:var(--steel)}
+.protocol li + li{margin-top:10px}
+.protocol li::before{content:"—";color:rgba(193,154,61,.7)}
+.powers{margin-top:56px;display:grid;gap:24px 40px}
+@media(min-width:768px){.powers{grid-template-columns:1fr 1fr}}
+.power{display:flex;gap:16px;border-left:2px solid rgba(193,154,61,.3);padding-left:16px}
+.power .num{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.2em;
+  color:rgba(193,154,61,.7);padding-top:2px}
+.power h3{font-family:var(--disp);font-weight:500;font-size:16px;letter-spacing:.02em;color:var(--paper2)}
+
+/* ---------- руководство (Leadership) ---------- */
+.staff-grid{margin-top:48px;display:grid;gap:24px}
+@media(min-width:768px){.staff-grid{grid-template-columns:repeat(3,1fr)}}
+.staff-card{background:var(--card);border:1px solid rgba(10,15,26,.15);
+  box-shadow:4px 4px 0 rgba(35,47,62,.08);overflow:hidden}
+.staff-top{display:flex;align-items:center;justify-content:space-between;background:var(--night);
+  padding:10px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.2em}
+.staff-top .id{color:var(--paper2)}
+.staff-top .clr{color:var(--brass)}
+.staff-photo{position:relative;height:176px;display:flex;align-items:flex-end;justify-content:center;
+  background:linear-gradient(to bottom,rgba(147,162,181,.2),rgba(147,162,181,.05));overflow:hidden}
+.staff-photo .censor{position:absolute;left:50%;top:64px;width:112px;height:14px;
+  transform:translateX(-50%);background:rgba(10,15,26,.85)}
+.staff-body{padding:20px}
+.staff-body h3{font-family:var(--disp);font-weight:600;font-size:20px;letter-spacing:.02em;color:var(--type)}
+.staff-body .rank{margin-top:4px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--brass2)}
+.staff-body .order{margin-top:16px;padding-top:12px;border-top:1px solid rgba(10,15,26,.1);
+  font-family:var(--mono);font-size:10px;color:var(--steel2)}
+.staff-note{margin-top:32px;font-family:var(--mono);font-size:11px;line-height:1.6;color:var(--steel2)}
+
+/* ==================== ФОРМА ==================== */
+.contact-grid{display:grid;gap:40px;margin-top:48px}
+@media(min-width:1024px){.contact-grid{grid-template-columns:.85fr 1.15fr}}
+.info-card{background:var(--card);border:1px solid rgba(10,15,26,.15);padding:24px}
+.info-card + .info-card{margin-top:24px}
+.info-card h3{font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--steel2);font-weight:400}
+.info-rows{margin-top:16px;font-family:var(--mono);font-size:14px;color:rgba(35,47,62,.85)}
+.info-row{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid rgba(10,15,26,.1)}
+.info-row:last-child{border-bottom:none}
+.info-row .k{color:var(--steel2)}
+.info-list{margin-top:16px;list-style:none;font-size:14px;line-height:1.6;color:rgba(35,47,62,.8)}
+.info-list li + li{margin-top:10px}
+.contact-note{margin-top:24px;font-family:var(--mono);font-size:11px;line-height:1.6;color:var(--steel2)}
+
+.form-card{position:relative;background:var(--card);border:1px solid rgba(10,15,26,.15);
+  padding:32px}
+@media(min-width:640px){.form-card{padding:32px 40px}}
+.form-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--steel2)}
+.form-head .copy{color:var(--stamp)}
+.form-grid{display:grid;gap:20px}
+@media(min-width:640px){.form-grid{grid-template-columns:1fr 1fr}}
+.form-grid .full{grid-column:1/-1}
+.field label{display:block;margin-bottom:6px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.18em;color:var(--steel2)}
+.field label b{color:var(--stamp);font-weight:400}
+.field input,.field select,.field textarea{width:100%;border:1px solid rgba(10,15,26,.2);
+  border-radius:2px;background:var(--paper);padding:12px 16px;font-family:var(--body);
+  font-size:16px;color:var(--type);transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brass);outline:none}
+.field input::placeholder,.field textarea::placeholder{color:rgba(93,107,125,.6)}
+.field input:disabled{opacity:.5}
+.field textarea{resize:vertical}
+.field .err{margin-top:6px;font-family:var(--mono);font-size:11px;color:var(--stamp)}
+.form-error{border:1px solid rgba(168,52,42,.4);background:rgba(168,52,42,.1);
+  padding:12px 16px;margin-bottom:16px;font-family:var(--mono);font-size:12px;color:var(--stamp)}
+.anon{display:flex;align-items:center;gap:12px;margin-top:20px;font-size:14px;
+  color:rgba(35,47,62,.85);cursor:pointer}
+.anon input{width:16px;height:16px;accent-color:var(--brass)}
+.submit-row{margin-top:28px}
+.submit-btn{background:var(--night);color:var(--paper2);border:none;cursor:pointer;
+  padding:16px 32px;font-family:var(--disp);font-weight:600;font-size:14px;letter-spacing:.2em;
+  transition:background .2s}
+.submit-btn:hover{background:var(--ink2)}
+.submit-btn:disabled{cursor:wait;opacity:.7}
+.blink{animation:blink 1.2s steps(2,start) infinite}
+@keyframes blink{50%{opacity:0}}
+.success{padding:40px;text-align:center}
+.success h3{margin-top:32px;font-family:var(--disp);font-weight:600;font-size:26px;
+  letter-spacing:-.01em;color:var(--type)}
+.success .reg{margin-top:12px;font-family:var(--mono);font-size:14px;color:var(--steel2)}
+.success .reg b{color:var(--type)}
+.success p{margin:16px auto 0;max-width:420px;font-size:16px;line-height:1.6;color:rgba(35,47,62,.8)}
+.success .btn{margin-top:32px;background:none;border:1px solid rgba(10,15,26,.25);color:var(--type)}
+.success .btn:hover{border-color:var(--brass);color:var(--brass2)}
+
+/* ==================== ФУТЕР ==================== */
+footer.site{border-top:1px solid rgba(193,154,61,.2)}
+.footer-inner{padding:64px 0;text-align:center}
+.footer-inner .seal{width:80px;height:80px;margin:0 auto;opacity:.9}
+.footer-title{margin-top:24px;font-family:var(--disp);font-weight:600;font-size:18px;
+  letter-spacing:.3em;color:var(--paper2)}
+.footer-sub{margin-top:8px;font-family:var(--mono);font-size:10px;letter-spacing:.28em;color:var(--steel)}
+.footer-dis{margin:32px auto 0;max-width:640px;font-size:14px;line-height:1.7;color:var(--steel)}
+.footer-copy{margin-top:32px;font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--steel2)}
+
+/* ---------- prefers-reduced-motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  .ticker-track,.stamp-anim,.hero-stamp,.blink,.status i{animation:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== ШАПКА ==================== -->
+<header class="site">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top">
+      <svg class="seal" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="95" fill="rgba(10,15,26,.35)" stroke="#C19A3D" stroke-width="2.5"/>
+        <circle cx="100" cy="100" r="86" fill="none" stroke="#C19A3D" stroke-width="1" opacity=".65"/>
+        <path d="M100 18 L102 30.2 L108 31 L103.4 38.2 L104.8 44 L100 41 L95.2 44 L96.6 38.2 L92 31 L98 30.2 Z" fill="#C19A3D"/>
+        <path d="M28 66 L30 78.2 L36 79 L31.4 86.2 L32.8 92 L28 89 L23.2 92 L24.6 86.2 L20 79 L26 78.2 Z" fill="#C19A3D"/>
+        <path d="M172 66 L174 78.2 L180 79 L175.4 86.2 L176.8 92 L172 89 L167.2 92 L168.6 86.2 L164 79 L170 78.2 Z" fill="#C19A3D"/>
+        <path d="M58 100 Q100 68 142 100 Q100 132 58 100 Z" fill="none" stroke="#C19A3D" stroke-width="2.5"/>
+        <circle cx="100" cy="100" r="11" fill="none" stroke="#C19A3D" stroke-width="2"/>
+        <circle cx="100" cy="100" r="4.5" fill="#C19A3D"/>
+      </svg>
+      <span class="brand-name"><b>FBI</b><span>Inspection Division</span></span>
+    </a>
+    <nav class="main" aria-label="Основная навигация">
+      <a href="#about">О бюро</a><a href="#division">Отдел</a><a href="#duties">Задачи</a><a href="#leadership">Руководство</a>
+    </nav>
+    <div class="header-right">
+      <span class="status"><i></i>Функционирует</span>
+      <a class="btn" href="#contact">Связь</a>
+    </div>
+  </div>
+</header>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero grid-dots" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="dossier-tag reveal">Досье № INS-2026-0147 · Штат Space
+        <span class="stamp"><span class="big">Секретно</span></span></p>
+      <h1 class="title reveal"><span>Inspection</span><span class="outline">Division</span></h1>
+      <p class="hero-lede reveal">Отдел инспекций Федерального бюро расследований. Внутренний контроль,
+        скрытое наблюдение и надзор за дисциплиной в организациях, подвластных бюро, на территории штата Space.</p>
+      <div class="hero-actions reveal">
+        <a class="btn big" href="#contact">Подать обращение</a>
+        <a class="btn big ghost" href="#duties">Задачи отдела</a>
+      </div>
+      <dl class="meta-grid reveal">
+        <div class="meta-cell"><dt>Статус</dt><dd>Функционирует</dd></div>
+        <div class="meta-cell"><dt>Юрисдикция</dt><dd>Штат Space, США</dd></div>
+        <div class="meta-cell"><dt>Под надзором</dt><dd>4 организации</dd></div>
+        <div class="meta-cell"><dt>Допуск</dt><dd><span class="redact redact-light" style="width:64px" aria-label="засекречено"></span></dd></div>
+      </dl>
+    </div>
+    <div class="hero-seal">
+      <div class="folder-tab"><span>INSD-7 · Отдел инспекций</span></div>
+      <svg class="seal reveal" viewBox="0 0 200 200" role="img" aria-label="Печать Inspection Division">
+        <circle cx="100" cy="100" r="95" fill="rgba(10,15,26,.35)" stroke="#C19A3D" stroke-width="2.5"/>
+        <circle cx="100" cy="100" r="86" fill="none" stroke="#C19A3D" stroke-width="1" opacity=".65"/>
+        <g fill="#C19A3D">
+          <path d="M100 18 L102 30.2 L108 31 L103.4 38.2 L104.8 44 L100 41 L95.2 44 L96.6 38.2 L92 31 L98 30.2 Z"/>
+          <path d="M28 66 L30 78.2 L36 79 L31.4 86.2 L32.8 92 L28 89 L23.2 92 L24.6 86.2 L20 79 L26 78.2 Z"/>
+          <path d="M172 66 L174 78.2 L180 79 L175.4 86.2 L176.8 92 L172 89 L167.2 92 L168.6 86.2 L164 79 L170 78.2 Z"/>
+        </g>
+        <path d="M58 100 Q100 68 142 100 Q100 132 58 100 Z" fill="none" stroke="#C19A3D" stroke-width="2.5"/>
+        <circle cx="100" cy="100" r="11" fill="none" stroke="#C19A3D" stroke-width="2"/>
+        <circle cx="100" cy="100" r="4.5" fill="#C19A3D"/>
+      </svg>
+      <div class="hero-stamp"><span class="stamp"><span class="big">Проверено</span><span class="small">Inspected · 2026</span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== БЕГУЩАЯ ЛЕНТА ==================== -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>Внутренний контроль</span><span>Скрытое наблюдение</span><span>Дисциплина и порядок</span>
+    <span>Жетоны и удостоверения</span><span>Отчётность</span><span>Case-file</span>
+    <span>Вербовка</span><span>Штат Space</span>
+    <span>Внутренний контроль</span><span>Скрытое наблюдение</span><span>Дисциплина и порядок</span>
+    <span>Жетоны и удостоверения</span><span>Отчётность</span><span>Case-file</span>
+    <span>Вербовка</span><span>Штат Space</span>
+  </div>
+</div>
+
+<!-- ==================== О БЮРО ==================== -->
+<section class="sheet" id="about" style="background:var(--paper)">
+  <div class="wrap section-pad">
+    <div class="sec-head reveal">
+      <p class="eyebrow"><i></i>Раздел 01 / О бюро</p>
+      <h2 class="sec-title">Федеральное бюро расследований</h2>
+    </div>
+    <div class="about-grid">
+      <div class="prose reveal">
+        <p>Федеральное бюро расследований — ведущее федеральное правоохранительное ведомство
+          Соединённых Штатов. Бюро основано в 1908 году; штаб-квартира расположена в Вашингтоне,
+          округ Колумбия. Служба объединяет порядка 35 000 сотрудников и 56 полевых офисов по всей стране.</p>
+        <p>Миссия бюро — защищать Соединённые Штаты, исполнять уголовные законы страны и обеспечивать
+          верховенство Конституции. Внутри бюро действуют специализированные подразделения. Одно из них —
+          Inspection Division — следит за порядком внутри самой системы: за дисциплиной, регламентами
+          и качеством службы.</p>
+        <p>В штате Space действует региональное подразделение бюро. Его работу и работу подконтрольных
+          бюро организаций ежедневно проверяет отдел инспекций — следующие разделы досье рассказывают
+          о нём подробно.</p>
+      </div>
+      <div class="facts-card reveal">
+        <span class="stamp"><span class="big">Рассекречено</span></span>
+        <h3>Сводка / FBI</h3>
+        <dl>
+          <div class="facts-row"><dt>Основано</dt><dd>1908</dd></div>
+          <div class="facts-row"><dt>Штаб-квартира</dt><dd>Вашингтон, округ Колумбия</dd></div>
+          <div class="facts-row"><dt>Сотрудников</dt><dd>≈ 35 000</dd></div>
+          <div class="facts-row"><dt>Полевых офисов</dt><dd>56</dd></div>
+          <div class="facts-row"><dt>Юрисдикция</dt><dd>Штат Space</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ОТДЕЛ ==================== -->
+<section class="sheet" id="division" style="background:var(--paper2)">
+  <div class="wrap section-pad">
+    <div class="sec-head reveal">
+      <p class="eyebrow"><i></i>Раздел 02 / Отдел</p>
+      <h2 class="sec-title">Отдел инспекций (InsD)</h2>
+      <p class="sec-lede">Inspection Division — отдел бюро, занимающийся контролем работы государственных
+        и коммерческих организаций, подвластных ФБР. Статус отдела: функционирует.</p>
+    </div>
+    <p class="org-intro reveal">Под надзором отдела находятся четыре типа организаций — от полицейских
+      департаментов до военных баз. Каждая проходит регулярные скрытые инспекции: по итогам составляются
+      отчёты с фиксацией нарушений, а материалы о серьёзных проступках передаются в руководство для
+      принятия дисциплинарных мер.</p>
+    <p class="org-label reveal">✦ Организации под надзором</p>
+    <div class="org-grid">
+      <div class="org-card reveal"><span class="tag">Под надзором</span>
+        <p class="code">PD-01</p><h3>Полицейские департаменты</h3>
+        <p>Дисциплина личного состава, порядок в участках, использование служебного транспорта.</p></div>
+      <div class="org-card reveal"><span class="tag">Под надзором</span>
+        <p class="code">MED-02</p><h3>Больницы</h3>
+        <p>Соблюдение регламентов, качество исполнения обязанностей медицинским персоналом.</p></div>
+      <div class="org-card reveal"><span class="tag">Под надзором</span>
+        <p class="code">DSA-03</p><h3>Автошкола</h3>
+        <p>Контроль учебного процесса, выдачи удостоверений и документооборота.</p></div>
+      <div class="org-card reveal"><span class="tag">Под надзором</span>
+        <p class="code">MB-04</p><h3>Военные базы</h3>
+        <p>Внутренний распорядок, допуски, охрана периметра и режим секретности.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ЗАДАЧИ ==================== -->
+<section class="grid-dots on-dark" id="duties" style="background:var(--night);border-top:1px solid rgba(193,154,61,.2);border-bottom:1px solid rgba(193,154,61,.2)">
+  <div class="wrap section-pad">
+    <div class="sec-head reveal">
+      <p class="eyebrow"><i></i>Раздел 03 / Задачи</p>
+      <h2 class="sec-title">Основные задачи отдела</h2>
+      <p class="sec-lede">Инспекционный отдел выполняет функции внутреннего контроля и надзора, обеспечивая
+        соблюдение стандартов дисциплины, регламентов и порядка в организации. Основная деятельность отдела
+        направлена на скрытое наблюдение и проверку качества исполнения обязанностей сотрудниками
+        различных подразделений.</p>
+    </div>
+    <p class="org-label reveal" style="color:var(--brass);margin-top:48px">Ключевые направления деятельности отдела InsD</p>
+    <div class="protocols">
+      <article class="protocol reveal"><span class="num">01</span>
+        <h3>Оценка состояния внутреннего порядка</h3>
+        <ul>
+          <li>В скрытой форме осуществляется контроль за дисциплиной сотрудников — их поведением на рабочем месте и за пределами службы.</li>
+          <li>Проверяется поддержание порядка в помещениях организации.</li>
+          <li>Контролируется исправность и надлежащее использование служебного транспорта.</li>
+        </ul></article>
+      <article class="protocol reveal"><span class="num">02</span>
+        <h3>Контроль наличия удостоверений и жетонов</h3>
+        <ul>
+          <li>Проводятся проверки наличия служебных жетонов и удостоверений у сотрудников.</li>
+          <li>Проверяется правильность ношения и предъявления жетона.</li>
+          <li>Отслеживается соблюдение правил обращения с жетоном.</li>
+        </ul></article>
+      <article class="protocol reveal"><span class="num">03</span>
+        <h3>Отчётность и дисциплинарные меры</h3>
+        <ul>
+          <li>По итогам инспекций составляются внутренние отчёты с фиксацией нарушений и предложениями по их устранению.</li>
+          <li>В случае выявления серьёзных нарушений материалы передаются в руководство для принятия дисциплинарных мер.</li>
+        </ul></article>
+      <article class="protocol reveal"><span class="num">04</span>
+        <h3>Слежка за службами исполнительных ведомств</h3>
+        <ul>
+          <li>Негласное наблюдение за работой подконтрольных структур и их сотрудников.</li>
+          <li>Фиксация отклонений от регламентов и должностных инструкций.</li>
+        </ul></article>
+    </div>
+    <div class="powers">
+      <div class="power reveal"><span class="num">05</span><h3>Выявление государственных изменщиков</h3></div>
+      <div class="power reveal"><span class="num">06</span><h3>Выявление возможных терактов, похищений</h3></div>
+      <div class="power reveal"><span class="num">07</span><h3>Выявление утечки информации государственного назначения</h3></div>
+      <div class="power reveal"><span class="num">08</span><h3>Проверка сотрудников на профессиональную пригодность, проверка качества работы организаций</h3></div>
+      <div class="power reveal"><span class="num">09</span><h3>Расследования нарушений сотрудников государственных служб</h3></div>
+      <div class="power reveal"><span class="num">10</span><h3>Выявление проблем внутри организации</h3></div>
+      <div class="power reveal"><span class="num">11</span><h3>Осуществление вербовок в ФБР</h3></div>
+      <div class="power reveal"><span class="num">12</span><h3>Написание CASE-FILE на сотрудников государственных структур</h3></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== РУКОВОДСТВО ==================== -->
+<section class="sheet" id="leadership" style="background:var(--paper)">
+  <div class="wrap section-pad">
+    <div class="sec-head reveal">
+      <p class="eyebrow"><i></i>Раздел 04 / Руководство</p>
+      <h2 class="sec-title">Руководство отдела</h2>
+      <p class="sec-lede">Руководство Inspection Division несёт ответственность за внутренний порядок
+        и дисциплину во всех поднадзорных организациях штата Space.</p>
+    </div>
+    <div class="staff-grid">
+      <article class="staff-card reveal">
+        <div class="staff-top"><span class="id">Удостоверение INS-0001</span><span class="clr">Допуск: X-4</span></div>
+        <div class="staff-photo"><svg width="112" height="112" viewBox="0 0 120 120" fill="#5d6b7d" opacity=".6" aria-hidden="true">
+          <circle cx="60" cy="44" r="22"/><path d="M22 120 q38 -36 76 0 z"/></svg><span class="censor"></span></div>
+        <div class="staff-body"><h3>Дж. Р. Колдуэлл</h3><p class="rank">Директор Inspection Division</p>
+          <p class="order">Назначен приказом бюро № ██-██</p></div>
+      </article>
+      <article class="staff-card reveal">
+        <div class="staff-top"><span class="id">Удостоверение INS-0002</span><span class="clr">Допуск: X-3</span></div>
+        <div class="staff-photo"><svg width="112" height="112" viewBox="0 0 120 120" fill="#5d6b7d" opacity=".6" aria-hidden="true">
+          <circle cx="60" cy="44" r="22"/><path d="M22 120 q38 -36 76 0 z"/></svg><span class="censor"></span></div>
+        <div class="staff-body"><h3>М. К. Томпсон</h3><p class="rank">Заместитель директора</p>
+          <p class="order">Назначен приказом бюро № ██-██</p></div>
+      </article>
+      <article class="staff-card reveal">
+        <div class="staff-top"><span class="id">Удостоверение INS-0003</span><span class="clr">Допуск: X-3</span></div>
+        <div class="staff-photo"><svg width="112" height="112" viewBox="0 0 120 120" fill="#5d6b7d" opacity=".6" aria-hidden="true">
+          <circle cx="60" cy="44" r="22"/><path d="M22 120 q38 -36 76 0 z"/></svg><span class="censor"></span></div>
+        <div class="staff-body"><h3>Э. Б. Сандерс</h3><p class="rank">Начальник оперативного отдела</p>
+          <p class="order">Назначен приказом бюро № ██-██</p></div>
+      </article>
+    </div>
+    <p class="staff-note reveal">Полные сведения о руководстве отдела относятся к конфиденциальной информации
+      и предоставляются по отдельному запросу.</p>
+  </div>
+</section>
+
+<!-- ==================== ОБРАТНАЯ СВЯЗЬ ==================== -->
+<section class="sheet" id="contact" style="background:var(--paper2)">
+  <div class="wrap section-pad">
+    <div class="sec-head reveal">
+      <p class="eyebrow"><i></i>Раздел 05 / Связь</p>
+      <h2 class="sec-title">Обратная связь</h2>
+      <p class="sec-lede">Форма INS-302 — защищённый канал связи с отделом. Используйте её, чтобы сообщить
+        о нарушении, подать жалобу на сотрудника или запросить информацию.</p>
+    </div>
+    <div class="contact-grid">
+      <div>
+        <div class="info-card reveal">
+          <h3>Порядок связи</h3>
+          <div class="info-rows">
+            <div class="info-row"><span class="k">Приём обращений</span><span>круглосуточно</span></div>
+            <div class="info-row"><span class="k">Срок ответа</span><span>до 48 часов</span></div>
+            <div class="info-row"><span class="k">Канал</span><span>форма INS-302</span></div>
+          </div>
+        </div>
+        <div class="info-card reveal">
+          <h3>Что можно сообщить</h3>
+          <ul class="info-list">
+            <li>— жалобу на сотрудника или руководителя;</li>
+            <li>— сведения о нарушении дисциплины и регламентов;</li>
+            <li>— запрос информации о работе отдела;</li>
+            <li>— предложение о сотрудничестве или вербовке.</li>
+          </ul>
+        </div>
+        <p class="contact-note reveal">Отправляя форму, вы подтверждаете достоверность сведений.
+          Демо-версия: письмо обрабатывается в браузере и никуда не передаётся.</p>
+      </div>
+      <div>
+        <div class="form-card ruled reveal">
+          <span class="tape" style="left:40px;transform:rotate(-3deg)"></span>
+          <p class="form-head">Форма INS-302 · Обращение в отдел <span class="copy">Экз. № 1</span></p>
+
+          <!-- состояние: письмо принято -->
+          <div class="success" id="success" hidden>
+            <span class="stamp stamp-anim"><span class="big">Зарегистрировано</span><span class="small">INS-302</span></span>
+            <h3>Письмо принято</h3>
+            <p class="reg">Рег. № <b id="regNum"></b> · <span id="regTime"></span></p>
+            <p>Письмо передано в канцелярию отдела. Ответ придёт на указанный e-mail в течение 48 часов.</p>
+            <button type="button" class="btn" onclick="resetForm()">Написать ещё одно письмо</button>
+          </div>
+
+          <!-- форма -->
+          <form id="insForm" novalidate>
+            <p class="form-error" id="formError" hidden></p>
+            <div class="form-grid">
+              <div class="field">
+                <label for="f-name">Имя и фамилия <b>*</b></label>
+                <input id="f-name" type="text" placeholder="Иванов Иван">
+                <p class="err" id="err-name" hidden>Укажите имя и фамилию (минимум 3 символа).</p>
+              </div>
+              <div class="field">
+                <label for="f-org">Должность / организация</label>
+                <input id="f-org" type="text" placeholder="Полицейский департамент, лейтенант">
+              </div>
+              <div class="field">
+                <label for="f-email">E-mail для ответа <b>*</b></label>
+                <input id="f-email" type="email" placeholder="you@example.com">
+                <p class="err" id="err-email" hidden>Укажите корректный e-mail для ответа.</p>
+              </div>
+              <div class="field">
+                <label for="f-phone">Телефон (необязательно)</label>
+                <input id="f-phone" type="tel" placeholder="+1 (___) ___-____">
+              </div>
+              <div class="field full">
+                <label for="f-topic">Тема обращения <b>*</b></label>
+                <select id="f-topic">
+                  <option value="" disabled selected>Выберите тему…</option>
+                  <option>Жалоба на сотрудника</option>
+                  <option>Сообщение о нарушении</option>
+                  <option>Запрос информации</option>
+                  <option>Предложение / сотрудничество</option>
+                  <option>Иное</option>
+                </select>
+                <p class="err" id="err-topic" hidden>Выберите тему обращения.</p>
+              </div>
+              <div class="field full">
+                <label for="f-msg">Текст письма <b>*</b></label>
+                <textarea id="f-msg" rows="6" placeholder="Опишите суть обращения: что произошло, когда, где, кто участвовал…"></textarea>
+                <p class="err" id="err-msg" hidden>Опишите суть обращения — минимум 20 символов.</p>
+              </div>
+            </div>
+            <label class="anon"><input type="checkbox" id="f-anon"> Отправить анонимно (без указания имени)</label>
+            <div class="submit-row">
+              <button type="submit" class="submit-btn" id="submitBtn">Зарегистрировать письмо</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ФУТЕР ==================== -->
+<footer class="site">
+  <div class="wrap footer-inner">
+    <svg class="seal" viewBox="0 0 200 200" aria-hidden="true">
+      <circle cx="100" cy="100" r="95" fill="rgba(10,15,26,.35)" stroke="#C19A3D" stroke-width="2.5"/>
+      <circle cx="100" cy="100" r="86" fill="none" stroke="#C19A3D" stroke-width="1" opacity=".65"/>
+      <path d="M100 18 L102 30.2 L108 31 L103.4 38.2 L104.8 44 L100 41 L95.2 44 L96.6 38.2 L92 31 L98 30.2 Z" fill="#C19A3D"/>
+      <path d="M28 66 L30 78.2 L36 79 L31.4 86.2 L32.8 92 L28 89 L23.2 92 L24.6 86.2 L20 79 L26 78.2 Z" fill="#C19A3D"/>
+      <path d="M172 66 L174 78.2 L180 79 L175.4 86.2 L176.8 92 L172 89 L167.2 92 L168.6 86.2 L164 79 L170 78.2 Z" fill="#C19A3D"/>
+      <path d="M58 100 Q100 68 142 100 Q100 132 58 100 Z" fill="none" stroke="#C19A3D" stroke-width="2.5"/>
+      <circle cx="100" cy="100" r="11" fill="none" stroke="#C19A3D" stroke-width="2"/>
+      <circle cx="100" cy="100" r="4.5" fill="#C19A3D"/>
+    </svg>
+    <p class="footer-title">Inspection Division</p>
+    <p class="footer-sub">Федеральное бюро расследований · Штат Space</p>
+    <p class="footer-dis">Сайт является частью вымышленного ролевого проекта (GTA RP) и не имеет отношения
+      к реальному Федеральному бюро расследований США. Все организации, лица и события вымышлены.</p>
+    <p class="footer-copy">© 2026 InsD · Досье INS-2026-0147 · Гриф: Секретно</p>
+  </div>
+</footer>
+
+<script>
+/* ==================== ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ ==================== */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+/* ==================== ФОРМА INS-302 ==================== */
+/* URL бэкенда для реальной отправки писем (Formspree / свой API / Discord-вебхук).
+   Пустая строка = демо-режим: письмо «регистрируется» в браузере. */
+const CONTACT_ENDPOINT = "";
+const form = document.getElementById("insForm");
+const success = document.getElementById("success");
+
+function showErr(id, show) { document.getElementById(id).hidden = !show; }
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = document.getElementById("f-name").value.trim();
+  const email = document.getElementById("f-email").value.trim();
+  const topic = document.getElementById("f-topic").value;
+  const message = document.getElementById("f-msg").value.trim();
+  const anon = document.getElementById("f-anon").checked;
+
+  const errs = [];
+  if (!anon && name.length < 3) errs.push(["err-name", true]);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) errs.push(["err-email", true]);
+  if (!topic) errs.push(["err-topic", true]);
+  if (message.length < 20) errs.push(["err-msg", true]);
+
+  ["err-name", "err-email", "err-topic", "err-msg"].forEach((id) => showErr(id, false));
+  errs.forEach(([id]) => showErr(id, true));
+
+  const formError = document.getElementById("formError");
+  formError.hidden = true;
+  if (errs.length) { form.scrollIntoView({ behavior: "smooth", block: "center" }); return; }
+
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true;
+  btn.innerHTML = '<span class="blink">Передача по защищённому каналу…</span>';
+
+  const payload = {
+    subject: "INS-302: " + topic,
+    name: anon ? "Аноним" : name,
+    org: document.getElementById("f-org").value.trim(),
+    email, phone: document.getElementById("f-phone").value.trim(),
+    topic, message, sentAt: new Date().toISOString()
+  };
+
+  try {
+    if (CONTACT_ENDPOINT) {
+      const res = await fetch(CONTACT_ENDPOINT, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error("bad response");
+    } else {
+      await new Promise((r) => setTimeout(r, 1500)); // демо-режим
+    }
+    document.getElementById("regNum").textContent =
+      "INS-" + new Date().getFullYear() + "-" + Math.floor(1000 + Math.random() * 9000);
+    document.getElementById("regTime").textContent =
+      new Date().toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" });
+    form.hidden = true;
+    success.hidden = false;
+  } catch {
+    formError.textContent = "Не удалось передать письмо по защищённому каналу. Повторите попытку позже.";
+    formError.hidden = false;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Зарегистрировать письмо";
+  }
+});
+
+function resetForm() {
+  form.reset();
+  form.hidden = false;
+  success.hidden = true;
+  ["err-name", "err-email", "err-topic", "err-msg"].forEach((id) => showErr(id, false));
+  document.getElementById("formError").hidden = true;
+}
+
+/* анонимный режим: поле имени необязательно */
+document.getElementById("f-anon").addEventListener("change", (e) => {
+  document.getElementById("f-name").disabled = e.target.checked;
+});
+</script>
+</body>
 </html>
